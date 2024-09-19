@@ -1,4 +1,1 @@
-# TheFriendZoone
-# TheFriendZoone
-# TheFriendZoone
-# TheFriendZoone
+This social Media Application is ment to flex my javascript muscle 
