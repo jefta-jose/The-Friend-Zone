@@ -13,3 +13,4 @@ CREATE TABLE FriendZoneUsers (
 );
 
 SELECT * FROM FriendZoneUsers
+TRUNCATE TABLE FriendZoneUsers
