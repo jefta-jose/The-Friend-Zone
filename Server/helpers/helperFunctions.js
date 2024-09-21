@@ -1,36 +1,6 @@
 import { poolRequest } from "../utils/config.js";
 import sql from 'mssql';
 import bcrypt from 'bcrypt';
-import Logger from "../utils/Logger.js";
-
-export const successMessage = (res, message) => {
-    res.status(200).json({ message: message });
-};
-
-export const validationError = (res, message) => {
-    res.status(400).json({ message: message });
-};
-
-export const notAuthorized = (res, message) => {
-    return res.status(401).json({ message: message });
-};
-export const sendBadRequest = (res, message) => {
-    return res.status(400).json({ message: message });
-};
-
-export const sendNotFound = (res, message) => {
-    return res.status(404).json({ message: message });
-};
-
-export const sendCreated = (res, message) => {
-    return res.status(201).json({ message: message });
-};
-export const sendDeleteSuccess = (res, message) => {
-    return res.status(200).json({ message: message });
-};
-export const sendServerError = (res, message) => {
-    return res.status(500).json({ message: message });
-};
 
 export const paginate = (data, req, res) => {
     const page = Number(req.query.page);
@@ -92,14 +62,17 @@ export const insertData = async (tableName, data, schema) => {
     const request = poolRequest();
 
     // Loop through each property in the data object
-    Object.keys(data).forEach((key) => {
+    Object.keys(data).forEach(
+        //callback function
+        (key) => {
         const type = schema[key];
         if (type) {
             request.input(key, type, data[key]);
         } else {
             throw new Error(`No type defined for column: ${key}`);
         }
-    });
+    }
+);
 
     return await request.query(insertQuery);
 };
@@ -107,17 +80,27 @@ export const insertData = async (tableName, data, schema) => {
 
 // Helper to check if email exists
 export const checkEmailExists = async (email) => {
+    // Regular expression for validating email format
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    // Check if the email matches the valid format
+    if (!emailRegex.test(email)) {
+        throw new Error("Invalid email format");
+    }
+
     const emailCheckQuery = `
         SELECT COUNT(*) AS count
         FROM FriendZoneUsers
         WHERE Email = @Email
     `;
+
     const result = await poolRequest()
         .input('Email', sql.VarChar(255), email)
         .query(emailCheckQuery);
 
     return result.recordset[0].count > 0;
 };
+
 
 //helper function to hash a password
 export const hashPassword = async (password) => {
@@ -133,12 +116,8 @@ export const validateDataAgainstSchema = (schema, data) => {
     const extraKeys = dataKeys.filter(key => !schemaKeys.includes(key));
     const missingKeys = schemaKeys.filter(key => !dataKeys.includes(key));
 
-    if (extraKeys.length > 0) {
-        Logger.error("invalid extra fields")
-    }
-
-    if (missingKeys.length > 0) {
-        Logger.error("missing fields")
+    if (extraKeys.length > 0 || missingKeys.length > 0 ) {
+        throw new Error("invalid fields")
     }
 
     return true;

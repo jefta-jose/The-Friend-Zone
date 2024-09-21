@@ -1,4 +1,4 @@
-import { checkEmailExists, hashPassword, insertData, validateDataAgainstSchema } from "../helpers/helperFunctions.js";
+import { checkEmailExists, hashPassword, insertData } from "../helpers/helperFunctions.js";
 import { poolRequest } from "../utils/config.js";
 import Logger from "../utils/Logger.js";
 import { friendZoneUserSchema } from "../schemas/schemas.js";
@@ -16,19 +16,15 @@ export const allFriendZoneUsersService = async () => {
 
 export const createFrindZoneUserService = async (friendZoneUserData) =>{
     try {
-        validateDataAgainstSchema(friendZoneUserSchema, friendZoneUserData);
-
         //destructure required fields
         const {Email, PasswordHash, ...moreData} = friendZoneUserData;
 
         //cehck if email exists
         const checkEmail = await checkEmailExists(Email);
         if(checkEmail){
-            Logger.error("email already exists");
+            throw new Error ("Email Alredy Exists");
         }
 
-        //only create user if email does not exist
-        else{
         //hash the password
         const hashedPassword = await hashPassword(PasswordHash);
 
@@ -49,11 +45,7 @@ export const createFrindZoneUserService = async (friendZoneUserData) =>{
         //insert the new user into the database.
         await insertData(`FriendZoneUsers`, userData, friendZoneUserSchema);
 
-        Logger.info("user created succesfully")
-        }
-
-
     } catch (error) {
-        Logger.error(error);
+        console.log(error);
     }
 }

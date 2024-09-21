@@ -3,22 +3,19 @@ import {
   createFrindZoneUserService,
 } from "../services/userServices.js";
 
-import {
-  sendNotFound,
-  successMessage,
-  sendServerError,
-} from "../helpers/helperFunctions.js";
+
 
 export const allFriendZoneUsersController = async (req, res) => {
   try {
     const request = await allFriendZoneUsersService();
     if (request.length === 0) {
-      sendNotFound(res, "No FriendZOne Users Found");
+      return res.status(404).json({message: "users not found"});
     } else {
-      successMessage(res, request);
+      return res.status(201).json({ message: "All users", request });
     }
   } catch (error) {
-    sendServerError(res, error);
+    console.log(error);
+    return res.status(500).json({message: "internal server error"});
   }
 };
 
@@ -28,18 +25,20 @@ export const createFrindZoneUserController = async (req,res) =>{
             FirstName: req.body.FirstName,
             LastName: req.body.LastName,
             Email: req.body.Email,
-            PasswordHash: req.body.Password,
-            PhoneNumber: req.body.NationalID,
-            Profile_Picture_Url: req.body.County,
-            Residence: req.body.Residence,
-            Bio: req.body.PhoneNumber,
+            PasswordHash: req.body.PasswordHash,
+            PhoneNumber: req.body.PhoneNumber,
+            Profile_Picture_Url: req.body.Profile_Picture_Url,
+            Bio: req.body.Bio,
     
         };
 
         const request = await createFrindZoneUserService(userData)
-        successMessage("user created successfully", request);
-
-    } catch (error) {
-        sendServerError(res,error)
+        
+        return res.status(201).json({ message: "user created successfully", request });
+    } 
+    
+  catch (error) {
+      console.log(error);
+      return res.status(500).json({message: "internal server error"});
     }
 }
