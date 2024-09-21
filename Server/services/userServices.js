@@ -46,7 +46,7 @@ export const createFrindZoneUserService = async (friendZoneUserData) =>{
             Bio: moreData.Bio,
         };
 
-        //insert the new user into the database 
+        //insert the new user into the database.
         await insertData(`FriendZoneUsers`, userData, friendZoneUserSchema);
 
         Logger.info("user created succesfully")
