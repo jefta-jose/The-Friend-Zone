@@ -111,3 +111,44 @@ Start by:
 1. Bootstrapping the React front-end using `create-react-app`.
 2. Setting up the Node.js + Express back-end with basic user authentication and CRUD functionality.
 3. Adding real-time notifications after basic features are working.
+
+#designs link
+https://dribbble.com/shots/22417216-WeShare-Social-Media-Platform-Project
+
+
+USERS TABLE DETAILS
+
+For a **users table** in a social media project, you might want to include the following fields:
+
+### Basic Information
+1. **user_id** (Primary Key) – A unique identifier for each user.
+2. **username** – The user's chosen display name.
+3. **email** – For account verification and login.
+4. **password_hash** – Encrypted password for security.
+5. **phone_number** (Optional) – For two-factor authentication or contact.
+6. **profile_picture_url** – Link to the user's profile picture.
+7. **bio** – A short description or introduction of the user.
+8. **website_url** (Optional) – Personal or professional website.
+
+### Account Management
+9. **created_at** – Timestamp for when the account was created.
+10. **updated_at** – Timestamp for the last profile update.
+11. **last_login** – Timestamp of the user's last login.
+12. **is_active** – Boolean to indicate if the account is active.
+13. **is_verified** – Boolean to show if the account has been verified.
+
+### Social Features
+14. **followers_count** – Number of users following this user.
+15. **following_count** – Number of users this user follows.
+16. **posts_count** – Number of posts made by the user.
+
+### Privacy and Security
+17. **is_private** – Boolean to indicate if the user's account is private.
+18. **two_factor_enabled** – Boolean to show if two-factor authentication is enabled.
+
+### Optional Fields
+19. **date_of_birth** (Optional) – For age restrictions.
+20. **location** (Optional) – For displaying where the user is from.
+21. **gender** (Optional) – For demographic data or personalization.
+
+These fields cover the essential parts of user management and social interactions while keeping the design flexible for future updates.
