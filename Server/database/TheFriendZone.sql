@@ -1,0 +1,15 @@
+USE TheFriendZone
+
+CREATE TABLE FriendZoneUsers (
+    User_Id UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,
+    FirstName VARCHAR(255) NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    PasswordHash VARCHAR(255) NOT NULL,
+    PhoneNumber VARCHAR(50) NOT NULL,
+    Profile_Picture_Url VARCHAR(255) NOT NULL,
+    Bio VARCHAR(1000) NOT NULL,
+
+);
+
+SELECT * FROM FriendZoneUsers
